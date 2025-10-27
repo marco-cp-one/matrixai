@@ -12,7 +12,7 @@
         body {
             font-family: 'Noto Sans', sans-serif;
         }
-        h1 {
+        h1, h2, h3, h4, h5, h6 {
             font-family: 'Jost', sans-serif;
         }
 
@@ -31,9 +31,12 @@
             align-items: center;
             justify-content: center;
         }
-        .modal-content {
-            max-height: 80vh; /* Make content scrollable */
-            overflow-y: auto;
+        .modal-content-container {
+             /* max-height: 80vh; Make content scrollable */
+             overflow-y: auto;
+             width: 100%;
+             max-width: 42rem; /* max-w-2xl */
+             margin: 1rem; /* m-4 */
         }
         .modal-open {
             display: flex; /* Show the modal */
@@ -137,19 +140,21 @@
 
     <!-- --- Modal HTML (Hidden by default) --- -->
     <div id="feature-modal" class="modal">
-        <div class="modal-content bg-white w-full max-w-2xl p-6 rounded-lg shadow-xl m-4">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between pb-3 border-b border-slate-200">
-                <h3 id="modal-title" class="text-xl font-bold text-slate-800">Category Features</h3>
-                <button id="modal-close-btn" class="text-slate-500 hover:text-slate-800 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <!-- Modal Body (Scrollable List) -->
-            <div class="mt-4 max-h-[60vh] overflow-y-auto pr-2">
-                <ul id="modal-list" class="space-y-4">
-                    <!-- Features will be populated by JS -->
-                </ul>
+        <div class="modal-content-container">
+            <div class="modal-content bg-white w-full p-6 rounded-lg shadow-xl">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+                    <h3 id="modal-title" class="text-xl font-bold text-slate-800">Category Features</h3>
+                    <button id="modal-close-btn" class="text-slate-500 hover:text-slate-800 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <!-- Modal Body (Scrollable List) -->
+                <div class="mt-4 max-h-[60vh] overflow-y-auto pr-2 -mr-2">
+                    <div id="modal-list" class="space-y-4">
+                        <!-- Features will be populated by JS -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -162,22 +167,28 @@
 "Automatically group/consolidate similar tender clarifications requests to consolidate responses and automatically publish clarification responses. Automatically suggest relevant responses to supplier clarifications, based on tender details to assist Procurement Officials"	Tender Clarification and Response Automation	Agentic AI & Workflow Automation	Medium	Low	High
 "Automatically determines the appropriate procurement procedure (detection of tresholds, understanding of procurement strategy), generates necessary documents and routes requests to the appropriate systems"	Automated Procurement Procedure Management	Agentic AI & Workflow Automation	Medium	Low	High
 "Automate Contract Management tasks such as sending renewal reminders, tracking contract milestones and generating reports on contract performance"	Contract Management Automation	Agentic AI & Workflow Automation	Medium	Low	High
-"Automatically generate purchase requisitions based on procurement plans information/data  Consolidate demand at various levels (UNSPSC level, location level, category level, project level)"	Procurement Plan Optimization	Agentic AI & Workflow Automation	Low	Low	Medium
+"Automatically generate purchase requisitions based on procurement plans information/data
+Consolidate demand at various levels (UNSPSC level, location level, category level, project level)"	Procurement Plan Optimization	Agentic AI & Workflow Automation	Low	Low	Medium
 "Automatic and systematic time management data collection + automated suggestion to update the deadline (+emailing) if extension"	Automated Time Management and Deadline Updates	Agentic AI & Workflow Automation	Low	Low	Medium
 "Automatically record and timestamp minutes of pre-bid meetings, route them for validation to the appropriate review body (Procurement Reviewer according to current policy) and automatically publish/amend the tender accordingly"	Automated Pre-Bid Meeting Management	Agentic AI & Workflow Automation	Low	Low	Medium
 "Record automatically minutes of negotiations meetings along with timestamps, auto-upload of minutes into eSourcing, auto-routing of minutes for validation to relevant parties"	Automated Negotiation Meeting Minutes and Routing	Agentic AI & Workflow Automation	Low	Low	Medium
-"Automatically generate purchase orders/contracts, auto-populate them with the necessary data and send them automatically to suppliers once approved: - upon award approval based on the information from the sourcing event (incl products, unit prices, payment terms, supplier data, incoterms etc.) - from contract entity based on the information from the contract entity"	Automated Purchase Order/Contract Generation and Dispatch	Agentic AI & Workflow Automation	Medium	Medium	Medium
+"Automatically generate purchase orders/contracts, auto-populate them with the necessary data and send them automatically to suppliers once approved:
+- upon award approval based on the information from the sourcing event (incl products, unit prices, payment terms, supplier data, incoterms etc.)
+- from contract entity based on the information from the contract entity"	Automated Purchase Order/Contract Generation and Dispatch	Agentic AI & Workflow Automation	Medium	Medium	Medium
 "Proactive Workflow Management: The AI monitors the performance of running workflows to flag bottlenecks and analyzes historical data to suggest optimizations. The overall approach can also be used for patterns and trends to identify redundant issues in policies"	AI for Proactive Workflow Management	Agentic AI & Workflow Automation	High	High	Medium
-"Consistency engine (plug to Form Enginge: NLP semantic analysis of newly generated questionnaires to build a consistency mapping). The idea is to verify reponsdents inputs and verify if there responses are consistent across multiple questions in the same field. Eg: Link the question ""Do you have a formal policy prohibiting child labor?"" (Q5) with ""Do you perform age verification for all new workers?"" (Q12). -> Generated rule: IF response(Q5) == ""Yes"" AND response(Q12) == ""No"" THEN FLAG ""Critical Inconsistency: Child Labor Policy Not Implemented"", this whole framework could also be used to build consistency in workflow engine"	Consistency Engine for Questionnaire Analysis	Compliance & Anomaly Detection Engine	High	Low	Very High
+"Consistency engine (plug to Form Enginge: NLP semantic analysis of newly generated questionnaires to build a consistency mapping). The idea is to verify reponsdents inputs and verify if there responses are consistent across multiple questions in the same field. Eg: Link the question ""Do you have a formal policy prohibiting child labor?"" (Q5) with ""Do you perform age verification for all new workers?"" (Q12). -> Generated rule: IF response(Q5) == ""Yes"" AND response(Q12) == ""No""
+THEN FLAG ""Critical Inconsistency: Child Labor Policy Not Implemented"", this whole framework could also be used to build consistency in workflow engine"	Consistency Engine for Questionnaire Analysis	Compliance & Anomaly Detection Engine	High	Low	Very High
 "Anomaly Detection: The AI continuously monitors supplier assessment history and flags anomalies, such as a supplier's score dropping suddenly."	Anomaly Detection in Supplier Assessment	Compliance & Anomaly Detection Engine	Medium	Low	High
 "Automated Review & Score Auditing: When a questionnaire is submitted, an AI performs a preliminary audit, flagging answers that seem statistically unusual to guide the human reviewer."	AI for Review and Audit	Compliance & Anomaly Detection Engine	Medium	Low	High
 "Analyze CPC submissions to support review by Chairs, learning from previous cases"	CPC Submission Analysis	Compliance & Anomaly Detection Engine	High	Medium	High
 "New audit recommendation re. collusion indentification by the system: check for any similarities in the name of person who submitted the bid as ""the person authorised by the bidder"", check for similarities in registerred address, timing of documents uploaded, gramatical errors, price similarities (if too close), similar structure of the documents, same IP address."	Audit Recommendations for Collusion Identification	Compliance & Anomaly Detection Engine	High	Medium	High
-"Prior to publication, automatically proofread tenders to identify and flag any non-compliance with formatting standards, procurement policies or other relevant requirements and suggest areas for improvement  Automatically proofread and review award"	Automated Tender Proofreading and Award Review	Compliance & Anomaly Detection Engine	High	Medium	High
+"Prior to publication, automatically proofread tenders to identify and flag any non-compliance with formatting standards, procurement policies or other relevant requirements and suggest areas for improvement
+Automatically proofread and review award"	Automated Tender Proofreading and Award Review	Compliance & Anomaly Detection Engine	High	Medium	High
 "Flag anomalies/outlying bids that deviate significantly from the norm (e.g.: unusually low/high prices, unrealistic timelines, suspicious similarities) that can potentially indicate errors, aggressive pricing, fraud or collusion"	Anomaly Detection in Bids	Compliance & Anomaly Detection Engine	Medium	Medium	Medium
 "DRiVE assessment chatbot: Empower supplier with a comprehensive and adaptive chatbot that would fine-tune recommendations for their self-assessment and maybe even help them on clarification or verification documents"	DRiVE Assessment Chatbot	Conversational AI & Support	Medium	Low	High
 "Automatically generate a concise summary of the tender on-demand to help suppliers quickly understand the requirements and encourage participation. Enable suppliers to ask questions about the tender and find relevant information within the documents using natural language queries (mimicking pre-bid meeting interactions)"	Tender Summary and Q&A for Suppliers	Conversational AI & Support	Low	Low	Medium
-"AI-powered chatbot/assistant to support portal users and answer common questions  Contextual help and guidance: relevant prescriptive content and guidance materials available within UNOPS to prompted at each step of the process"	AI Chatbot and Contextual Help for UNOPS Portal Users	Conversational AI & Support	High	Medium	High
+"AI-powered chatbot/assistant to support portal users and answer common questions
+Contextual help and guidance: relevant prescriptive content and guidance materials available within UNOPS to prompted at each step of the process"	AI Chatbot and Contextual Help for UNOPS Portal Users	Conversational AI & Support	High	Medium	High
 "Provide auto-suggestions for applicable sustainable procurement criteria, based on the existing SP criteria tool"	Sustainable Procurement Criteria Auto-Suggestions	Generative AI Content Assistant	Medium	Low	High
 "Assist in drafting complete tender document sections based on high-level inputs (Meeting notes, ERP data, unstructured text entry)"	Tender Document Drafting Support	Generative AI Content Assistant	High	Low	Very High
 "Automated Form Enrichment: When creating a new questionnaire, an AI could pre-fill parameters like QuestionConceptID, MaturityLevel, and relevant LinkedSDGTargets by analyzing the question's text."	Automated Form Enrichment with AI	Generative AI Content Assistant	Medium	Low	High
@@ -194,7 +205,8 @@
 "Automated document verification/Pre processing: Policies, training materials, contracts etc.. Could be automatically processed within an AI workflow so they would be automatically flagged for inconsistency, to extract records of review, expiry date (track keywords, dates, signatures and conflicting information)"	Automated Document Verification and Pre-processing	IDP & Data Foundation / Compliance & Anomaly Detection Engine	High	Medium	High
 "Automated estimation of costs (regression based on historical data) + detection of non compliant values (string, 0, 1, or illogical value)"	Cost Estimation and Compliance Detection	IDP & Data Foundation / Predictive Analytics & Scenario Modeling	Low	Medium	High
 "UNSPSC Lookup with semantic linking: finding the best UNSPSC code for an item with a research based on project context and meaning"	UNSPSC Lookup with Semantic Linking	Intelligent Document Processing (IDP) & Data Foundation	High	Low	Very High
-"Scan and extract data from UN agencies LTAs (PDFs) from UNGM to build a fully-fledged and searchable contract repository. Relevant UN agencies' LTAs alongside UNOPS LTAs and other existing contracts are automatically suggested as suggested sourcing option, if relevant matched identified at requisition stage  Streamline search of contracts (POs, other contracts, LTAs, UN agency LTAs, BPAs...) in the repository by leveraging Natural Language Processing"	Contract Repository and Search Optimization	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	High
+"Scan and extract data from UN agencies LTAs (PDFs) from UNGM to build a fully-fledged and searchable contract repository. Relevant UN agencies' LTAs alongside UNOPS LTAs and other existing contracts are automatically suggested as suggested sourcing option, if relevant matched identified at requisition stage
+Streamline search of contracts (POs, other contracts, LTAs, UN agency LTAs, BPAs...) in the repository by leveraging Natural Language Processing"	Contract Repository and Search Optimization	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	High
 "Automatically screen supplier documentation as part of DRiVE to verify questionnaire responses or suggest to suppliers pre filled responses to the questionnaire, based on submitted documents (invovle reshaping DRiVE process, to have first document submission, then a first level of verification done by the suppliers)"	Automated Supplier Documentation Screening for DRiVE	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	High
 "Specification classifier (+ vector DB perhaps) to retrieve the attributes and specs of an item (would then be used for Tender authoring)"	Specification Classifier for Tender Authoring	Intelligent Document Processing (IDP) & Data Foundation	High	Low	Very High
 "Suggest relevant UNSPSC codes from natural language text descriptions"	UNSPSC Code Suggestion from Natural Language	Intelligent Document Processing (IDP) & Data Foundation	High	Low	Very High
@@ -203,29 +215,39 @@
 "Linking with Opportunity+ to fetch partner data (feeding into SP consideration for example)."	Partner Data Integration with Opportunity+	Intelligent Document Processing (IDP) & Data Foundation	Low	Low	Medium
 "Automatically generate and auto-populate receipt in oneUNOPS based on documentation/proof of delivery submitted by vendor"	Automated Receipt Generation in oneUNOPS	Intelligent Document Processing (IDP) & Data Foundation	Low	Low	Medium
 "Automate invoice processing and reconciliation by automatically extracting data from invoices and perform three-way matching (comparing the invoice to the PO and the receipt) for reconciliation. Recognize variations in descriptions and quantities."	Automated Invoice Processing and Reconciliation	Intelligent Document Processing (IDP) & Data Foundation	Medium	Medium	Medium
-"Automate initial bid screening by extracting data from bidding documents (including scanned PDFs via OCR) to automatically verify completeness and compliance with tender requirements, flagging non-compliant bids for further review  Automate the verification of bidders' mandatory requirements (incl. legal registrations, certifications and licenses) by extracting this information from submitted documentation"	Automated Bid Screening and Compliance Verification	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	High
-"Support auto-bid evaluation by extracting relevant information from bids that can for evaluation based on pre-defined criteria, suppliers can review the extracted data or explain it.  Also, the folders are pre-sorted and labelled by the AI, so the user can already know where to navigate to find information"	AI-Powered Bid Evaluation and Information Sorting	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	High
+"Automate initial bid screening by extracting data from bidding documents (including scanned PDFs via OCR) to automatically verify completeness and compliance with tender requirements, flagging non-compliant bids for further review
+Automate the verification of bidders' mandatory requirements (incl. legal registrations, certifications and licenses) by extracting this information from submitted documentation"	Automated Bid Screening and Compliance Verification	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	High
+"Support auto-bid evaluation by extracting relevant information from bids that can for evaluation based on pre-defined criteria, suppliers can review the extracted data or explain it.
+Also, the folders are pre-sorted and labelled by the AI, so the user can already know where to navigate to find information"	AI-Powered Bid Evaluation and Information Sorting	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	High
 "Data ingestion module (Entrance of the data pipeline for procurement). Converts language input from requisition into data for all system (UNSPSC, Country, Partner, Priorities, Project ID, Initial recommended method, SDG). This first module generates a first data-driven ""ID card"" for any procurement project facilitating the follow-up, assessment and reporting around of any procurement project"	Data Ingestion Module: Procurement Project ID Card	Intelligent Document Processing (IDP) & Data Foundation	High	High	Medium
 "Automatically generate a concise summary of the contract to help parties understand risks, key terms...etc. Enable parties to ask questions about the contract and find relevant information within the contract using natural language queries (e.g.: identify specific terms/clauses)"	Contract Summary and Query Tool	Intelligent Document Processing (IDP) & Data Foundation / Conversational AI & Support	Low	Low	Medium
-"Automatically generate lessons learned evaluating the procurement process's effectiveness, outcome achievement and quality of requirements  Learn from past successful tenders (large number of responses, number of successful bidders...) to improve future procurement processes (based on tender details, documentation...etc)"	Procurement Process Evaluation and Improvement	Predictive Analytics & Scenario Modeling	Low	Low	Medium
+"Automatically generate lessons learned evaluating the procurement process's effectiveness, outcome achievement and quality of requirements
+Learn from past successful tenders (large number of responses, number of successful bidders...) to improve future procurement processes (based on tender details, documentation...etc)"	Procurement Process Evaluation and Improvement	Predictive Analytics & Scenario Modeling	Low	Low	Medium
 "Impact Analysis: Before activating a new scoring model, the AI simulates its impact on historical data to report on how it would have affected past supplier scores."	AI Scoring Model Impact Analysis	Predictive Analytics & Scenario Modeling	Low	Low	Medium
 "Planning forecasting (ML/DL from similar cases) to help design better procurement planning"	Procurement Planning with ML/DL Forecasting	Predictive Analytics & Scenario Modeling	Medium	Medium	Medium
 "Automated DRiVE Score calibration (weighting) based on project context"	Automated DRiVE Score Calibration	Predictive Analytics & Scenario Modeling	Low	Medium	High
 "Automatically identify areas for improvement in procurement processes based on lessons learned from CPC reviews"	Procurement Process Improvement	Predictive Analytics & Scenario Modeling	Medium	Medium	Medium
 "Analyze submitted bids against tender document to identify potential areas of negotiation (e.g.: pricing, payment terms, service level agreements) and recommend negotiation strategies"	Negotiation Strategy Development	Predictive Analytics & Scenario Modeling	Low	Medium	High
-"Conduct complex evaluation/award scenarios: - Conduct award scenario analysis to compare bids and optimize outcomes (e.g., best price per line item, best overall price). - Analyze ""what-if"" scenarios, such as awarding multiple lots to a single supplier for volume discounts, to calculate potential savings and Total Cost of Ownership (TCO) and recommend negotiation strategies"	Complex Evaluation and Award Scenarios Analysis	Predictive Analytics & Scenario Modeling	High	High	Medium
+"Conduct complex evaluation/award scenarios:
+- Conduct award scenario analysis to compare bids and optimize outcomes (e.g., best price per line item, best overall price).
+- Analyze ""what-if"" scenarios, such as awarding multiple lots to a single supplier for volume discounts, to calculate potential savings and Total Cost of Ownership (TCO) and recommend negotiation strategies"	Complex Evaluation and Award Scenarios Analysis	Predictive Analytics & Scenario Modeling	High	High	Medium
 "Scenario testing (TCO, Supply Chain disruption) to support practionners in drafting resilient procurement strategies. This feature could simulate a fulll worklow based on parameters that the user can change"	Scenario Testing for Resilient Procurement Strategies	Predictive Analytics & Scenario Modeling	High	High	Medium
 "DRiVE pattern and trends: identify patterns and trends through regression and clusterisation to better prevent and mitigate issues/risks among suppliers"	DRiVE Patterns and Trends Analysis	Predictive Analytics & Scenario Modeling	Medium	High	Low
 "Use an ML approach to support the decision-making for RFP (MCDM TOPSIS or MARCOS)"	ML for RFP Decision-Making (MCDM, TOPSIS, MARCOS)	Predictive Analytics & Scenario Modeling	Medium	High	Low
 "Automate and streamline the entire purchase requisition intake process by intelligently understanding Purchase Requisitions, suggests existing contracts/LTAs and/or potential suppliers."	Purchase Requisition Automation	Supplier Intelligence & Matching	Medium	Low	High
 "Questionnaire Assignment: Beyond simple rules, an AI could analyze a supplier's complete profile to intelligently suggest the most relevant supplemental questionnaire modules."	AI-Powered Questionnaire Assignment	Supplier Intelligence & Matching	Medium	Low	High
-"Sustainable Procurement Agent: https://www.kaggle.com/code/marcocondemipolimeni/sustainable-procurement-agent Pull together SPPM data, with SP criteria, country data and Web search to provide granual and adaptive sustainable procurement recommendations"	Sustainable Procurement Agent	Supplier Intelligence &Matching	High	Low	Very High
+"Sustainable Procurement Agent: https://www.kaggle.com/code/marcocondemipolimeni/sustainable-procurement-agent
+Pull together SPPM data, with SP criteria, country data and Web search to provide granual and adaptive sustainable procurement recommendations"	Sustainable Procurement Agent	Supplier Intelligence & Matching	High	Low	Very High
 "Automatically extract key market intelligence from unstructured sourcing response documents"	Market Intelligence Extraction from Sourcing Documents	Supplier Intelligence & Matching	Low	Low	Medium
-"Automate supplier performance evaluation and monitoring by tracking and analyzing supplier performance metrics (delivery times, quantity, quality, communication, compliance, cost, questionnaire) over time  Automatically identify recommendations for improvement (incl. capacity development action plans)"	Automated Supplier Performance Evaluation	Supplier Intelligence & Matching	Medium	Medium	Medium
-NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Matching	Medium	Medium	Medium
-"Automatically suggest potential suppliers to invite to tender that have history of supplying the requirement or able to supply the requirement based on match between supplier data/information and tender requirements (e.g.: UNSPSC codes and other criteria)  For Emergency Procurement, automatically suggest potential suppliers based on historical procurement history, EPP experience etc.."	Supplier Suggestion for Tendering and Emergency Procurement	Supplier Intelligence & Matching	High	High	Medium
-"Analyze large, diverse datasets of supplier data (internal, external and unstructured) to establish 360-degree views of supplier profiles and risk scorecards in real-time, including capabilities, certifications, financial stability, eligibility, sustainability and past performance, as well as predicting potential risks by screening external sources of information (news...)  Identify and flag repeated supplier defaulters (e.g: those not responding to questionnaires promptly), low-performing suppliers.. .etc"	Supplier Data Analysis and Risk Management	Supplier Intelligence & Matching	Medium	High	Low
-"Streamline the supplier search process by leveraging Natural Language Processing (NLP)  Analyze large databases of suppliers (internal and external) + web to identify potential suppliers/suppliers of interest matching specific criteria (e.g.: commodity, geographical location, certifications, sustainability ratings, financial stability, past-performance) + market maturity (linking to DRiVE)"	AI-Powered Supplier Search Optimization	Supplier Intelligence & Matching	High	High	Medium`;
+"Automate supplier performance evaluation and monitoring by tracking and analyzing supplier performance metrics (delivery times, quantity, quality, communication, compliance, cost, questionnaire) over time
+Automatically identify recommendations for improvement (incl. capacity development action plans)"	Automated Supplier Performance Evaluation	Supplier Intelligence & Matching	Medium	Medium	Medium
+"Gather benchmark pricing and cost data from public databases, historical procurement records and real-time market intelligence (including disruption reports) to support reasonableness of cost analysis"	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Matching	Medium	Medium	Medium
+"Automatically suggest potential suppliers to invite to tender that have history of supplying the requirement or able to supply the requirement based on match between supplier data/information and tender requirements (e.g.: UNSPSC codes and other criteria)
+For Emergency Procurement, automatically suggest potential suppliers based on historical procurement history, EPP experience etc.."	Supplier Suggestion for Tendering and Emergency Procurement	Supplier Intelligence & Matching	High	High	Medium
+"Analyze large, diverse datasets of supplier data (internal, external and unstructured) to establish 360-degree views of supplier profiles and risk scorecards in real-time, including capabilities, certifications, financial stability, eligibility, sustainability and past performance, as well as predicting potential risks by screening external sources of information (news...)
+Identify and flag repeated supplier defaulters (e.g: those not responding to questionnaires promptly), low-performing suppliers.. .etc"	Supplier Data Analysis and Risk Management	Supplier Intelligence & Matching	Medium	High	Low
+"Streamline the supplier search process by leveraging Natural Language Processing (NLP)
+Analyze large databases of suppliers (internal and external) + web to identify potential suppliers/suppliers of interest matching specific criteria (e.g.: commodity, geographical location, certifications, sustainability ratings, financial stability, past-performance) + market maturity (linking to DRiVE)"	AI-Powered Supplier Search Optimization	Supplier Intelligence & Matching	High	High	Medium`;
 
         // --- Helper function to parse the TSV data ---
         function parseData(tsv) {
@@ -249,7 +271,8 @@ NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Ma
                     if (description.startsWith('"') && description.endsWith('"')) {
                         description = description.substring(1, description.length - 1);
                     }
-                    description = description.replace(/""/g, '"').replace(/  /g, ' '); // Fix double quotes and extra spaces
+                    // Handle escaped double quotes inside the string
+                    description = description.replace(/""/g, '"').replace(/ \s/g, ' '); // Fix double quotes and extra spaces
 
                     features.push({
                         Description: description,
@@ -344,15 +367,19 @@ NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Ma
             const matrix = {}; // Key format: "Impact-Complexity"
             for (const impact of matrixImpactGroups) {
                 for (const complexity of matrixComplexityGroups) {
-                    matrix[`${impact}-${complexity}`] = [];
+                    const key = `${impact}-${complexity}`;
+                    matrix[key] = {
+                        label: matrixStyles[key].label,
+                        features: []
+                    };
                 }
             }
 
             for (const feature of features) {
                 const key = `${feature.Impact}-${feature.Complexity}`;
                 if (matrix[key]) {
-                    // Store the *full feature object* instead of just the title
-                    matrix[key].push(feature); 
+                    // Store the *full feature object*
+                    matrix[key].features.push(feature); 
                 }
             }
             return matrix;
@@ -413,7 +440,8 @@ NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Ma
                 // Subsequent cells are the quadrants
                 for (const complexity of matrixComplexityGroups) {
                     const key = `${impact}-${complexity}`;
-                    const featuresInQuad = matrixData[key] || [];
+                    const quadrant = matrixData[key];
+                    const featuresInQuad = quadrant.features;
                     const styles = matrixStyles[key];
 
                     const cell = document.createElement('td');
@@ -424,7 +452,7 @@ NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Ma
                     
                     // Attach click event listener to the cell
                     cell.addEventListener('click', () => {
-                        showModal(styles.label, featuresInQuad);
+                        showModal(quadrant.label, featuresInQuad);
                     });
 
                     cell.innerHTML = `
@@ -518,7 +546,7 @@ NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Ma
         const closeModalBtn = document.getElementById('modal-close-btn');
 
         /**
-         * Shows the feature list modal
+         * Shows the feature list modal, grouped by macro
          * @param {string} title - The title for the modal (e.g., "Execute & Prioritize")
          * @param {Array<Object>} features - The array of feature objects
          */
@@ -528,20 +556,53 @@ NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Ma
 
             // Clear previous list
             modalList.innerHTML = '';
+            
+            if (features.length === 0) {
+                 modalList.innerHTML = `<div class="text-slate-500">No features in this category.</div>`;
+                 modal.classList.add('modal-open');
+                 return;
+            }
 
-            // Populate list
-            if (features.length > 0) {
-                for (const feature of features) {
-                    const li = document.createElement('li');
-                    li.className = 'py-3 border-b border-slate-200 last:border-b-0';
-                    li.innerHTML = `
-                        <strong class="block text-slate-800 font-semibold">${feature.Title}</strong>
-                        <p class="text-sm text-slate-600 mt-1">${feature.Description}</p>
-                    `;
-                    modalList.appendChild(li);
+            // Group features by their *mapped* macro name
+            const featuresByMacro = {};
+            for (const feature of features) {
+                const mappedMacroName = macroNameMap[feature.Macro] || "Uncategorized";
+                if (!featuresByMacro[mappedMacroName]) {
+                    featuresByMacro[mappedMacroName] = [];
                 }
-            } else {
-                modalList.innerHTML = `<li class="text-slate-500">No features in this category.</li>`;
+                featuresByMacro[mappedMacroName].push(feature);
+            }
+
+            // Get the order of macros to display (only ones with features)
+            const macrosToDisplay = macroRenderOrder.filter(macroName => featuresByMacro[macroName]);
+            
+            // Any uncategorized macros? (Shouldn't happen with our map, but good to check)
+            for (const macroName in featuresByMacro) {
+                if (!macroRenderOrder.includes(macroName)) {
+                    macrosToDisplay.push(macroName);
+                }
+            }
+            
+            // Populate list with new "box" layout
+            for (const macroName of macrosToDisplay) {
+                const macroFeatures = featuresByMacro[macroName];
+                if (macroFeatures && macroFeatures.length > 0) {
+                    const macroBox = document.createElement('div');
+                    macroBox.className = 'bg-slate-50 border border-slate-200 rounded-lg p-4';
+                    
+                    const icon = macroIcons[macroName] || '📂';
+                    let listHtml = `<h4 class="text-base font-semibold text-slate-800 mb-2">${icon} ${macroName}</h4>
+                                    <ul class="list-disc list-inside space-y-1">`;
+                    
+                    for (const feature of macroFeatures) {
+                        // We only show the title as requested
+                        listHtml += `<li class="text-sm text-slate-700">${feature.Title}</li>`;
+                    }
+                    
+                    listHtml += `</ul>`;
+                    macroBox.innerHTML = listHtml;
+                    modalList.appendChild(macroBox);
+                }
             }
 
             // Show modal
