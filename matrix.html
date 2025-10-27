@@ -8,96 +8,7 @@
     <!-- Updated Google Fonts import for Noto Sans and Jost -->
     <link href="https://fonts.googleapis.com/css2?family=Jost:wght@700&family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Updated font families */
-        body {
-            font-family: 'Noto Sans', sans-serif;
-        }
-        h1 {
-            font-family: 'Jost', sans-serif;
-        }
-
-        /* Styles for the new Modal */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5); /* Dim background */
-            /* Flex to center the modal content */
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-content {
-            max-height: 80vh; /* Make content scrollable */
-            overflow-y: auto;
-        }
-        .modal-open {
-            display: flex; /* Show the modal */
-        }
-        
-        /* Styles for Impact/Complexity Matrix Tooltip (View 1) */
-        .matrix-tile .tooltip-bubble {
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .matrix-tile:hover .tooltip-bubble {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        /* CSS for feature list tooltip (View 2) */
-        .feature-item {
-            position: relative;
-            cursor: default;
-            /* Fixes issue where 'li' marker is outside */
-            list-style-position: inside; 
-        }
-
-        /* Class for the text content */
-        .feature-text {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
-            /* Use inline-block to allow truncation and stay on same line as bullet */
-            display: inline-block; 
-            /* Align with bullet */
-            vertical-align: top;
-            /* Prevent text from wrapping under bullet */
-            width: calc(100% - 1.5em); /* Adjust width to account for bullet */
-        }
-        
-        .feature-item .feature-tooltip {
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.2s;
-            position: absolute;
-            left: 50%;
-            bottom: 125%; /* Position above the text */
-            transform: translateX(-50%);
-            z-index: 10;
-            
-            background-color: #1e293b; /* bg-slate-800 */
-            color: white;
-            padding: 0.5rem 0.75rem; /* p-2 px-3 */
-            border-radius: 0.5rem; /* rounded-lg */
-            font-size: 0.875rem; /* text-sm */
-            font-weight: 500; /* medium */
-            width: 300px;
-            max-width: 90vw;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            
-            /* Allow text to wrap inside the tooltip */
-            white-space: normal;
-            line-height: 1.4;
-        }
-        
+/* ... existing code ... -->
         .feature-item:hover .feature-tooltip {
             visibility: visible;
             opacity: 1;
@@ -529,18 +440,48 @@ NEW_FEATURE_TITLE	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Ma
             // Clear previous list
             modalList.innerHTML = '';
 
-            // Populate list
-            if (features.length > 0) {
-                for (const feature of features) {
-                    const li = document.createElement('li');
-                    li.className = 'py-3 border-b border-slate-200 last:border-b-0';
-                    li.innerHTML = `
-                        <strong class="block text-slate-800 font-semibold">${feature.Title}</strong>
-                        <p class="text-sm text-slate-600 mt-1">${feature.Description}</p>
-                    `;
-                    modalList.appendChild(li);
+            // 1. Group features by Macro
+            const groupedByMacro = {};
+            for (const feature of features) {
+                const macroName = macroNameMap[feature.Macro] || 'Uncategorized';
+                if (!groupedByMacro[macroName]) {
+                    groupedByMacro[macroName] = [];
                 }
-            } else {
+                groupedByMacro[macroName].push(feature);
+            }
+
+            // 2. Populate list based on grouped macros, following render order
+            let featuresFound = false;
+            for (const macroName of macroRenderOrder) {
+                const featuresInMacro = groupedByMacro[macroName];
+
+                if (featuresInMacro && featuresInMacro.length > 0) {
+                    featuresFound = true;
+                    const macroGroupLi = document.createElement('li');
+                    // Removed padding/border from li, will be on the inner box
+                    macroGroupLi.className = 'last:border-b-0'; 
+
+                    // Create the "box"
+                    let boxHtml = `<div class="bg-slate-50 p-3 rounded-lg border border-slate-200">`;
+                    
+                    // Add Macro title
+                    const icon = macroIcons[macroName] || '📂';
+                    boxHtml += `<h4 class="text-sm font-semibold text-slate-700 mb-2">${icon} ${macroName}</h4>`;
+                    
+                    // Add nested list of features
+                    boxHtml += `<ul class="list-disc list-inside space-y-1">`;
+                    for (const feature of featuresInMacro) {
+                        boxHtml += `<li class="text-sm text-slate-800">${feature.Title}</li>`; // Only the title
+                    }
+                    boxHtml += `</ul></div>`;
+                    
+                    macroGroupLi.innerHTML = boxHtml;
+                    modalList.appendChild(macroGroupLi);
+                }
+            }
+
+            // Handle case where no features are found
+            if (!featuresFound) {
                 modalList.innerHTML = `<li class="text-slate-500">No features in this category.</li>`;
             }
 
