@@ -240,7 +240,7 @@ Learn from past successful tenders (large number of responses, number of success
 Pull together SPPM data, with SP criteria, country data and Web search to provide granual and adaptive sustainable procurement recommendations"	Sustainable Procurement Agent	Supplier Intelligence & Matching	High	Low	Very High
 "Automatically extract key market intelligence from unstructured sourcing response documents"	Market Intelligence Extraction from Sourcing Documents	Supplier Intelligence & Matching	Low	Low	Medium
 "Automate supplier performance evaluation and monitoring by tracking and analyzing supplier performance metrics (delivery times, quantity, quality, communication, compliance, cost, questionnaire) over time
-Automatically identify recommendations for improvement (incl. capacity development action plans)"	Automated Supplier Performance Evaluation	Supplier Intelligence & Matching	Medium	Medium	Medium
+Automatically identify recommendations for improvement (incl. capacity development action plans)"	Automated Supplier Performance Evaluation	Supplier Intelligence &Matching	Medium	Medium	Medium
 "Gather benchmark pricing and cost data from public databases, historical procurement records and real-time market intelligence (including disruption reports) to support reasonableness of cost analysis"	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Matching	Medium	Medium	Medium
 "Automatically suggest potential suppliers to invite to tender that have history of supplying the requirement or able to supply the requirement based on match between supplier data/information and tender requirements (e.g.: UNSPSC codes and other criteria)
 For Emergency Procurement, automatically suggest potential suppliers based on historical procurement history, EPP experience etc.."	Supplier Suggestion for Tendering and Emergency Procurement	Supplier Intelligence & Matching	High	High	Medium
@@ -322,17 +322,27 @@ Analyze large databases of suppliers (internal and external) + web to identify p
             "Supplier Intelligence &Matching": "Supplier Intelligence & Matching" // Fix typo from data
         };
 
+        // --- Icons removed ---
+        const macroIcons = {
+            "Agentic AI & Workflow Automation": "",
+            "Compliance & Anomaly Detection Engine": "",
+            "Conversational AI & Support": "",
+            "Generative AI Content Assistant": "",
+            "Intelligent Document Processing (IDP) & Data Foundation": "",
+            "Predictive Analytics & Scenario Modeling": "",
+            "Supplier Intelligence & Matching": ""
+        };
 
 
         const priorityOrder = ["Very High", "High", "Medium", "Low"];
         
         // --- Shared Priority Styles (for Detailed List) ---
-        // --- Added Icons for Priorities ---
+        // --- Icons removed ---
         const priorityStyles = {
-            "Very High": { text: "text-emerald-700", border: "border-emerald-200", bg: "bg-emerald-50"},
-            "High": { text: "text-blue-700", border: "border-blue-200", bg: "bg-blue-50"},
-            "Medium": { text: "text-amber-700", border: "border-amber-200", bg: "bg-amber-50"},
-            "Low": { text: "text-slate-600", border: "border-slate-200", bg: "bg-slate-50"}
+            "Very High": { text: "text-emerald-700", border: "border-emerald-200", bg: "bg-emerald-50", icon: "" },
+            "High": { text: "text-blue-700", border: "border-blue-200", bg: "bg-blue-50", icon: "" },
+            "Medium": { text: "text-amber-700", border: "border-amber-200", bg: "bg-amber-50", icon: "" },
+            "Low": { text: "text-slate-600", border: "border-slate-200", bg: "bg-slate-50", icon: "" }
         };
 
         // --- Styles for 3x3 Impact/Complexity Matrix ---
@@ -477,11 +487,11 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                 const macroBox = document.createElement('div');
                 macroBox.className = 'bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col';
                 
-                // Macro Title - Updated with Icon
+                // Macro Title - Icon removed
                 const title = document.createElement('h3');
                 title.className = 'text-base font-semibold text-slate-800 border-b border-slate-200 pb-2 mb-3';
-                const icon = macroIcons[macroName] || '📂'; // Get icon or default
-                title.innerHTML = `${icon} ${macroName}`;
+                const icon = macroIcons[macroName] || ''; // Get icon or default
+                title.innerHTML = `${icon} ${macroName}`.trim(); // Use trim to remove extra space if no icon
                 macroBox.appendChild(title);
 
                 // Add features grouped by priority
@@ -491,11 +501,11 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                         const priorityGroup = document.createElement('div');
                         priorityGroup.className = 'mb-3';
 
-                        // Priority Label - Updated with Icon
+                        // Priority Label - Icon removed
                         const prioLabel = document.createElement('span');
                         const styles = priorityStyles[prio];
                         prioLabel.className = `inline-block text-xs font-medium px-2 py-0.5 rounded-full ${styles.bg} ${styles.text} ${styles.border} mb-2`;
-                        prioLabel.innerHTML = `${styles.icon} ${prio}`;
+                        prioLabel.innerHTML = `${styles.icon} ${prio}`.trim(); // Use trim
                         priorityGroup.appendChild(prioLabel);
 
                         const ul = document.createElement('ul');
@@ -580,7 +590,7 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                     const macroBox = document.createElement('div');
                     macroBox.className = 'bg-slate-50 border border-slate-200 rounded-lg p-4';
                     
-                    const icon = macroIcons[macroName] || '📂';
+                    const icon = macroIcons[macroName] || ''; // Icon removed
                     let listHtml = `<h4 class="text-base font-semibold text-slate-800 mb-2">${icon} ${macroName}</h4>
                                     <ul class="list-disc list-inside space-y-1">`;
                     
@@ -590,7 +600,10 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                     }
                     
                     listHtml += `</ul>`;
-                    macroBox.innerHTML = listHtml;
+                    macroBox.innerHTML = listHtml.replace(/<h4 class="text-base font-semibold text-slate-800 mb-2"> <\/h4>/, `<h4 class="text-base font-semibold text-slate-800 mb-2">${macroName}</h4>`); // Clean up empty icon space
+                    // Refined cleanup
+                    macroBox.innerHTML = macroBox.innerHTML.replace(`${icon} ${macroName}`, macroName);
+
                     modalList.appendChild(macroBox);
                 }
             }
@@ -628,9 +641,13 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                     hideModal();
                 }
             });
+
+             // A small fix to clean up the modal title HTML just in case
+            document.querySelectorAll('h4').forEach(h4 => {
+                h4.innerHTML = h4.innerHTML.trim();
+            });
         });
     </script>
 </body>
 </html>
-
 
