@@ -21,7 +21,7 @@
             font-family: 'Jost', sans-serif;
         }
 
-        /* Styles for the new Modal */
+        /* Updated Styles for the new "Glass" Modal */
         .modal {
             display: none; /* Hidden by default */
             position: fixed;
@@ -31,20 +31,37 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5); /* Dim background */
+            
+            /* New glass effect */
+            background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+            backdrop-filter: blur(8px); /* The blur effect */
+            -webkit-backdrop-filter: blur(8px); /* Safari support */
+
             /* Flex to center the modal content */
             align-items: center;
             justify-content: center;
+            
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         .modal-content-container {
-             /* max-height: 80vh; Make content scrollable */
              overflow-y: auto;
              width: 100%;
              max-width: 42rem; /* max-w-2xl */
              margin: 1rem; /* m-4 */
+             
+             /* Animation for the box appearing */
+             transform: scale(0.95);
+             opacity: 0;
+             transition: all 0.3s ease;
         }
         .modal-open {
             display: flex; /* Show the modal */
+            opacity: 1;
+        }
+        .modal-open .modal-content-container {
+             transform: scale(1);
+             opacity: 1;
         }
         
         /* Styles for Impact/Complexity Matrix Tooltip (View 1) */
@@ -222,7 +239,8 @@
     <!-- --- Modal HTML (Hidden by default) --- -->
     <div id="feature-modal" class="modal">
         <div class="modal-content-container">
-            <div class="modal-content bg-white w-full p-6 rounded-lg shadow-xl">
+            <!-- Updated modal content with shadow and border -->
+            <div class="modal-content bg-white w-full p-6 rounded-lg shadow-2xl border border-slate-200">
                 <!-- Modal Header -->
                 <div class="flex items-center justify-between pb-3 border-b border-slate-200">
                     <h3 id="modal-title" class="text-xl font-bold text-slate-800">Category Features</h3>
@@ -292,7 +310,7 @@ Contextual help and guidance: relevant prescriptive content and guidance materia
 "Scan and extract data from UN agencies LTAs (PDFs) from UNGM to build a fully-fledged and searchable contract repository. Relevant UN agencies' LTAs alongside UNOPS LTAs and other existing contracts are automatically suggested as suggested sourcing option, if relevant matched identified at requisition stage
 
 Streamline search of contracts (POs, other contracts, LTAs, UN agency LTAs, BPAs...) in the repository by leveraging Natural Language Processing"	Contract Repository and Search Optimization	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.9	1.1	High	Contract Management	Other
-"Automatically screen supplier documentation as part of DRiVE to verify questionnaire responses or suggest to suppliers pre filled responses to the questionnaire, based on submitted documents (invovle reshaping DRiVE process, to have first document submission, then a first level of verification done by the suppliers)"	Automated Supplier Documentation Screening for DRiVE	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.7	1.1	High	Supplier Management	DRiVE
+"Automatically screen supplier documentation as part of DRiVE to verify questionnaire responses or suggest to suppliers pre filled responses to the questionnaire, based on submitted documents (invovle reshaping DRiVE process, to have first document submission,. then a first level of verification done by the suppliers)"	Automated Supplier Documentation Screening for DRiVE	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.7	1.1	High	Supplier Management	DRiVE
 "Specification classifier (+ vector DB perhaps) to retrieve the attributes and specs of an item (would then be used for Tender authoring)"	Specification Classifier for Tender Authoring	Intelligent Document Processing (IDP) & Data Foundation	High	Low	3	1	2.85	1.15	Very High	Requirements definition	eSourcing
 "Suggest relevant UNSPSC codes from natural language text descriptions"	UNSPSC Code Suggestion from Natural Language	Intelligent Document Processing (IDP) & Data Foundation	High	Low	3	1	2.65	1.25	Very High	Requirements definition	eSourcing
 "Translation capabilities for documents"	Document Translation Capabilities	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	2.1	1.35	High	Supplier Management	Other
@@ -383,7 +401,8 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                         Complexity: values[complexityIndex] ? values[complexityIndex].trim() : 'Medium',
                         Prioritization: values[prioIndex] ? values[prioIndex].trim() : 'Medium',
                         ProcessPart: values[processPartIndex] ? values[processPartIndex].trim() : '', 
-                        System: values[systemIndex] ? values[systemIndex].trim() : 'Other' // Default to 'Other' if blank
+                        // Default to 'Other' if blank, otherwise use the value
+                        System: (values[systemIndex] ? values[systemIndex].trim() : 'Other') || 'Other'
                     });
                 }
             }
@@ -716,7 +735,9 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                     listHtml += `</ul>`;
                     macroBox.innerHTML = listHtml.replace(/<h4 class="text-base font-semibold text-slate-800 mb-2"> <\/h4>/, `<h4 class="text-base font-semibold text-slate-800 mb-2">${macroName}</h4>`); // Clean up empty icon space
                     // Refined cleanup
-                    macroBox.innerHTML = macroBox.innerHTML.replace(`${icon} ${macroName}`, macroName).trim();
+                    const titleEl = macroBox.querySelector('h4');
+                    titleEl.innerHTML = titleEl.innerHTML.trim();
+
 
                     modalList.appendChild(macroBox);
                 }
