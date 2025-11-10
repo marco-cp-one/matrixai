@@ -146,7 +146,7 @@
             white-space: nowrap; /* Prevent tag from wrapping */
             flex-shrink: 0; /* Don't let tag shrink */
         }
-
+        
         /* Styles for Filter Buttons */
         .filter-btn {
             padding: 0.5rem 1rem; /* py-2 px-4 */
@@ -184,7 +184,7 @@
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex-shrink-0 flex items-center">
-                    <span class="text-2xl font-bold text-slate-800">Procurement AI Hub</span>
+                    <span class="text-2xl font-bold text-slate-800">AI Strategy Hub</span>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
@@ -203,13 +203,8 @@
         <!-- Added margin-bottom to create space -->
         <div id="filter-container" class="mb-8 p-4 bg-white rounded-lg shadow-sm border border-slate-200">
             <h3 class="text-base font-semibold text-slate-700 mb-3">Filter by System</h3>
-            <div class="flex flex-wrap gap-2">
-                <button class="filter-btn active" data-filter="Global view">Global view</button>
-                <button class="filter-btn" data-filter="Procurement Portal">Procurement Portal</button>
-                <button class="filter-btn" data-filter="eSourcing">eSourcing</button>
-                <button class="filter-btn" data-filter="ERP">ERP</button>
-                <button class="filter-btn" data-filter="DRiVE">DRiVE</button>
-                <button class="filter-btn" data-filter="Other">Other</button>
+            <div id="filter-buttons-wrapper" class="flex flex-wrap gap-2">
+                <!-- Filter buttons will be dynamically generated here -->
             </div>
         </div>
 
@@ -264,95 +259,95 @@
 
     <script>
         // --- Full Raw Data (TSV Format) ---
-        // This is the UPDATED data you provided, including the new "System" column
+        // This is the UPDATED data from your Sheet5.csv
         const rawData = `Ideas (candidates for AI, GenAI, ML, NLP and RPA)	Title	Macro	Impact	Complexity	Impact number	Complexity number	Jittered Impact	Jittered Complexity	Prioritization	Part of the process	System
 "Automatically group/consolidate similar tender clarifications requests to consolidate responses and automatically publish clarification responses. Automatically suggest relevant responses to supplier clarifications, based on tender details to assist Procurement Officials"	Tender Clarification and Response Automation	Agentic AI & Workflow Automation	Medium	Low	2	1	1.75	1.4	High	Solicitation period	Procurement Portal
 "Automatically determines the appropriate procurement procedure (detection of tresholds, understanding of procurement strategy), generates necessary documents and routes requests to the appropriate systems"	Automated Procurement Procedure Management	Agentic AI & Workflow Automation	Medium	Low	2	1	2.45	1.4	High	Requirements definition	Procurement Portal
-"Automate Contract Management tasks such as sending renewal reminders, tracking contract milestones and generating reports on contract performance"	Contract Management Automation	Agentic AI & Workflow Automation	Medium	Low	2	1	2.4	1.45	High	Contract Management	eSourcing
+"Automate Contract Management tasks such as sending renewal reminders, tracking contract milestones and generating reports on contract performance"	Contract Management Automation	Agentic AI & Workflow Automation	Medium	Low	2	1	2.4	1.45	High	Contract Management	Procurement Portal
 "Automatically generate purchase requisitions based on procurement plans information/data
 
-Consolidate demand at various levels (UNSPSC level, location level, category level, project level)"	Procurement Plan Optimization	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Requirements definition	
-"Automatic and systematic time management data collection + automated suggestion to update the deadline (+emailing) if extension"	Automated Time Management and Deadline Updates	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Solicitation period	eSourcing
-"Automatically record and timestamp minutes of pre-bid meetings, route them for validation to the appropriate review body (Procurement Reviewer according to current policy) and automatically publish/amend the tender accordingly"	Automated Pre-Bid Meeting Management	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Solicitation period	eSourcing
-"Record automatically minutes of negotiations meetings along with timestamps, auto-upload of minutes into eSourcing, auto-routing of minutes for validation to relevant parties"	Automated Negotiation Meeting Minutes and Routing	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Evaluation	eSourcing
+Consolidate demand at various levels (UNSPSC level, location level, category level, project level)"	Procurement Plan Optimization	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Requirements definition	Procurement Portal
+"Automatic and systematic time management data collection + automated suggestion to update the deadline (+emailing) if extension"	Automated Time Management and Deadline Updates	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Solicitation period	Procurement Portal
+"Automatically record and timestamp minutes of pre-bid meetings, route them for validation to the appropriate review body (Procurement Reviewer according to current policy) and automatically publish/amend the tender accordingly"	Automated Pre-Bid Meeting Management	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Solicitation period	Other
+"Record automatically minutes of negotiations meetings along with timestamps, auto-upload of minutes into eSourcing, auto-routing of minutes for validation to relevant parties"	Automated Negotiation Meeting Minutes and Routing	Agentic AI & Workflow Automation	Low	Low	1	1	1.5	1.5	Medium	Evaluation	Other
 "Automatically generate purchase orders/contracts, auto-populate them with the necessary data and send them automatically to suppliers once approved:
 - upon award approval based on the information from the sourcing event (incl products, unit prices, payment terms, supplier data, incoterms etc.)
-- from contract entity based on the information from the contract entity"	Automated Purchase Order/Contract Generation and Dispatch	Agentic AI & Workflow Automation	Medium	Medium	2	2	2.3	2.3	Medium	Contract Management	ERP
+- from contract entity based on the information from the contract entity"	Automated Purchase Order/Contract Generation and Dispatch	Agentic AI & Workflow Automation	Medium	Medium	2	2	2.3	2.3	Medium	Contract Management	Procurement Portal
 "Proactive Workflow Management: The AI monitors the performance of running workflows to flag bottlenecks and analyzes historical data to suggest optimizations. The overall approach can also be used for patterns and trends to identify redundant issues in policies"	AI for Proactive Workflow Management	Agentic AI & Workflow Automation	High	High	3	3	2.75	2.75	Medium	MULTI	Other
 "Consistency engine (plug to Form Enginge: NLP semantic analysis of newly generated questionnaires to build a consistency mapping). The idea is to verify reponsdents inputs and verify if there responses are consistent across multiple questions in the same field. Eg: Link the question ""Do you have a formal policy prohibiting child labor?"" (Q5) with ""Do you perform age verification for all new workers?"" (Q12). -> Generated rule: IF response(Q5) == ""Yes"" AND response(Q12) == ""No""
-THEN FLAG ""Critical Inconsistency: Child Labor Policy Not Implemented"", this whole framework could also be used to build consistency in workflow engine"	Consistency Engine for Questionnaire Analysis	Compliance & Anomaly Detection Engine	High	Low	3	1	2.55	1.05	Very High	Supplier Management	DRiVE
-"Anomaly Detection: The AI continuously monitors supplier assessment history and flags anomalies, such as a supplier's score dropping suddenly."	Anomaly Detection in Supplier Assessment	Compliance & Anomaly Detection Engine	Medium	Low	2	1	2.05	1.05	High	Supplier Management	DRiVE
-"Automated Review & Score Auditing: When a questionnaire is submitted, an AI performs a preliminary audit, flagging answers that seem statistically unusual to guide the human reviewer."	AI for Review and Audit	Compliance & Anomaly Detection Engine	Medium	Low	2	1	1.85	1.35	High	Supplier Management	DRiVE
-"Analyze CPC submissions to support review by Chairs, learning from previous cases"	CPC Submission Analysis	Compliance & Anomaly Detection Engine	High	Medium	3	2	2.75	1.95	High	Award	Other
-"New audit recommendation re. collusion indentification by the system: check for any similarities in the name of person who submitted the bid as ""the person authorised by the bidder"", check for similarities in registerred address, timing of documents uploaded, gramatical errors, price similarities (if too close), similar structure of the documents, same IP address."	Audit Recommendations for Collusion Identification	Compliance & Anomaly Detection Engine	High	Medium	3	2	2.55	2.05	High	Evaluation	eSourcing
+THEN FLAG ""Critical Inconsistency: Child Labor Policy Not Implemented"", this whole framework could also be used to build consistency in workflow engine"	Consistency Engine for Questionnaire Analysis	Compliance & Anomaly Detection Engine	High	Low	3	1	2.55	1.05	Very High	Supplier Management	Other
+"Anomaly Detection: The AI continuously monitors supplier assessment history and flags anomalies, such as a supplier's score dropping suddenly."	Anomaly Detection in Supplier Assessment	Compliance & Anomaly Detection Engine	Medium	Low	2	1	2.05	1.05	High	Supplier Management	Other
+"Automated Review & Score Auditing: When a questionnaire is submitted, an AI performs a preliminary audit, flagging answers that seem statistically unusual to guide the human reviewer."	AI for Review and Audit	Compliance & Anomaly Detection Engine	Medium	Low	2	1	1.85	1.35	High	Supplier Management	Procurement Portal
+"Analyze CPC submissions to support review by Chairs, learning from previous cases"	CPC Submission Analysis	Compliance & Anomaly Detection Engine	High	Medium	3	2	2.75	1.95	High	Award	CPC system
+"New audit recommendation re. collusion indentification by the system: check for any similarities in the name of person who submitted the bid as ""the person authorised by the bidder"", check for similarities in registerred address, timing of documents uploaded, gramatical errors, price similarities (if too close), similar structure of the documents, same IP address."	Audit Recommendations for Collusion Identification	Compliance & Anomaly Detection Engine	High	Medium	3	2	2.55	2.05	High	Evaluation	Procurement Portal
 "Prior to publication, automatically proofread tenders to identify and flag any non-compliance with formatting standards, procurement policies or other relevant requirements and suggest areas for improvement
 
-Automatically proofread and review award"	Automated Tender Proofreading and Award Review	Compliance & Anomaly Detection Engine	High	Medium	3	2	2.95	2.1	High	Solicitation	eSourcing
-"Flag anomalies/outlying bids that deviate significantly from the norm (e.g.: unusually low/high prices, unrealistic timelines, suspicious similarities) that can potentially indicate errors, aggressive pricing, fraud or collusion"	Anomaly Detection in Bids	Compliance & Anomaly Detection Engine	High	Medium	2	2	1.75	2.25	Medium	Evaluation	eSourcing
+Automatically proofread and review award"	Automated Tender Proofreading and Award Review	Compliance & Anomaly Detection Engine	High	Medium	3	2	2.95	2.1	High	Solicitation	Procurement Portal
+"Flag anomalies/outlying bids that deviate significantly from the norm (e.g.: unusually low/high prices, unrealistic timelines, suspicious similarities) that can potentially indicate errors, aggressive pricing, fraud or collusion"	Anomaly Detection in Bids	Compliance & Anomaly Detection Engine	High	Medium	2	2	1.75	2.25	Medium	Evaluation	Procurement Portal
 "DRiVE assessment chatbot: Empower supplier with a comprehensive and adaptive chatbot that would fine-tune recommendations for their self-assessment and maybe even help them on clarification or verification documents"	DRiVE Assessment Chatbot	Conversational AI & Support	Medium	Low	2	1	1.65	1.25	High	Supplier Management	DRiVE
 "Automatically generate a concise summary of the tender on-demand to help suppliers quickly understand the requirements and encourage participation. Enable suppliers to ask questions about the tender and find relevant information within the documents using natural language queries (mimicking pre-bid meeting interactions)"	Tender Summary and Q&A for Suppliers	Conversational AI & Support	Low	Low	1	1	1.5	1.5	Medium	Solicitation period	Procurement Portal
 "AI-powered chatbot/assistant to support portal users and answer common questions
 
-Contextual help and guidance: relevant prescriptive content and guidance materials available within UNOPS to prompted at each step of the process"	AI Chatbot and Contextual Help for UNOPS Portal Users	Conversational AI & Support	High	Medium	3	2	2.85	1.8	High	Help/support	Procurement Portal
-"Provide auto-suggestions for applicable sustainable procurement criteria, based on the existing SP criteria tool"	Sustainable Procurement Criteria Auto-Suggestions	Generative AI Content Assistant	Medium	Low	2	1	2.15	1.1	High	Requirements definition	eSourcing
-"Assist in drafting complete tender document sections based on high-level inputs (Meeting notes, ERP data, unstructured text entry)"	Tender Document Drafting Support	Generative AI Content Assistant	High	Low	3	1	2.9	1.2	Very High	Solicitation	eSourcing
-"Automated Form Enrichment: When creating a new questionnaire, an AI could pre-fill parameters like QuestionConceptID, MaturityLevel, and relevant LinkedSDGTargets by analyzing the question's text."	Automated Form Enrichment with AI	Generative AI Content Assistant	Medium	Low	2	1	1.95	1.25	High	Supplier Management	DRiVE
-"Support contract drafting (expand upon clauses or write new clauses) and identify issues"	Contract Drafting Support	Generative AI Content Assistant	Medium	Low	2	1	1.8	1.3	High	Contract Management	eSourcing
-"Smart SDG Mapping: When a new question is added to a questionnaire, an AI automatically suggests the most relevant PRIMARY and SECONDARY SDGs by analyzing the question's text."	Smart SDG Mapping	Generative AI Content Assistant	Medium	Low	2	1	1.85	1.45	High	Supplier Management	DRiVE
-"Automatically generate comprehensive evaluation reports that summarize bid evaluation results, scoring and key findings/observations"	Automated Bid Evaluation Reports	Generative AI Content Assistant	High	Low	3	1	2.95	1.45	Very High	Evaluation	eSourcing
-"Generate a summary of responses, the comments from reviewers and provide gaps assessment"	Summary, Comments, and Gaps Assessment	Generative AI Content Assistant	Low	Low	1	1	1.5	1.5	Medium	Supplier Management	DRiVE
-"Guidance Generation: An administrator provides guidance in one language, and the AI automatically generates and translates it into all applicable languages for the questionnaire."	Guidance Generation and Translation	Generative AI Content Assistant	Low	Low	1	1	1.5	1.5	Medium	Supplier Management	DRiVE
-"Automatically generate debrief reports for unsuccessful suppliers upon request, providing structured feedback on failed criteria (within the limit of information that can be shared/disclosed to bidder)"	Automate Debrief Reports for Unsuccessful Suppliers	Generative AI Content Assistant	Low	Low	1	1	1.5	1.5	Medium	Award	eSourcing
-"Automatically generate/create CPC case submissions based on tender and bid data"	Automated CPC case submissions	Generative AI Content Assistant	High	Medium	3	2	2.7	1.7	High	Award	eSourcing
-"Provide intelligent suggestions and recommendations for drafting technical specs, TORs, SOWs... based on best practices (guides), industry standards and past procurement. Identify and scan previous/existing tenders from UNGM and eSourcing repository to support drafting of specifications. Relate to impact and outcome."	AI-Powered Procurement Drafting and Sourcing	Generative AI Content Assistant	Medium	Medium	2	2	2.15	1.85	Medium	Requirements definition	eSourcing
+Contextual help and guidance: relevant prescriptive content and guidance materials available within UNOPS to prompted at each step of the process"	AI Chatbot and Contextual Help for UNOPS Portal Users	Conversational AI & Support	High	Medium	3	2	2.85	1.8	High	Help/support	Other
+"Provide auto-suggestions for applicable sustainable procurement criteria, based on the existing SP criteria tool"	Sustainable Procurement Criteria Auto-Suggestions	Generative AI Content Assistant	Medium	Low	2	1	2.15	1.1	High	Requirements definition	Procurement Portal
+"Assist in drafting complete tender document sections based on high-level inputs (Meeting notes, ERP data, unstructured text entry)"	Tender Document Drafting Support	Generative AI Content Assistant	High	Low	3	1	2.9	1.2	Very High	Solicitation	Procurement Portal
+"Automated Form Enrichment: When creating a new questionnaire, an AI could pre-fill parameters like QuestionConceptID, MaturityLevel, and relevant LinkedSDGTargets by analyzing the question's text."	Automated Form Enrichment with AI	Generative AI Content Assistant	Medium	Low	2	1	1.95	1.25	High	Supplier Management	Other
+"Support contract drafting (expand upon clauses or write new clauses) and identify issues"	Contract Drafting Support	Generative AI Content Assistant	Medium	Low	2	1	1.8	1.3	High	Contract Management	Procurement Portal
+"Smart SDG Mapping: When a new question is added to a questionnaire, an AI automatically suggests the most relevant PRIMARY and SECONDARY SDGs by analyzing the question's text."	Smart SDG Mapping	Generative AI Content Assistant	Medium	Low	2	1	1.85	1.45	High	Supplier Management	Other
+"Automatically generate comprehensive evaluation reports that summarize bid evaluation results, scoring and key findings/observations"	Automated Bid Evaluation Reports	Generative AI Content Assistant	High	Low	3	1	2.95	1.45	Very High	Evaluation	Procurement Portal
+"Generate a summary of responses, the comments from reviewers and provide gaps assessment"	Summary, Comments, and Gaps Assessment	Generative AI Content Assistant	Low	Low	1	1	1.5	1.5	Medium	Supplier Management	Procurement Portal
+"Guidance Generation: An administrator provides guidance in one language, and the AI automatically generates and translates it into all applicable languages for the questionnaire."	Guidance Generation and Translation	Generative AI Content Assistant	Low	Low	1	1	1.5	1.5	Medium	Supplier Management	Procurement Portal
+"Automatically generate debrief reports for unsuccessful suppliers upon request, providing structured feedback on failed criteria (within the limit of information that can be shared/disclosed to bidder)"	Automate Debrief Reports for Unsuccessful Suppliers	Generative AI Content Assistant	Low	Low	1	1	1.5	1.5	Medium	Award	Procurement Portal
+"Automatically generate/create CPC case submissions based on tender and bid data"	Automated CPC case submissions	Generative AI Content Assistant	High	Medium	3	2	2.7	1.7	High	Award	Procurement Portal
+"Provide intelligent suggestions and recommendations for drafting technical specs, TORs, SOWs... based on best practices (guides), industry standards and past procurement. Identify and scan previous/existing tenders from UNGM and eSOurcing repository to support drafting of specifications. Relate to impact and outcome."	AI-Powered Procurement Drafting and Sourcing	Generative AI Content Assistant	Medium	Medium	2	2	2.15	1.85	Medium	Requirements definition	Procurement Portal
 "Automatically generate purchase requisitions in the ERP from unstructured text data (e.g.: identify and select product code, estimated delivery date or relevant information etc..)"	Automated Purchase Requisition Generation from Unstructured Data	IDP & Data Foundation / Agentic AI & Workflow Automation	Low	Medium	1	2	1.1	1.9	High	Requirements definition	ERP
-"Analyze contract documents to extract key data (such as clauses and obligations, contract terms, renewal dates, pricing clauses, service level agreements..). Monitor supplier performance (invoices, delivery schedules, quality reports) against these obligations and contract compliance, flagging potential breaches or deviations and flagging them accordingly"	Contract Analysis and Supplier Performance Monitoring	IDP & Data Foundation / Compliance & Anomaly Detection Engine	Medium	Low	2	1	2.2	1.2	High	Contract Management	eSourcing
-"Automated document verification/Pre processing: Policies, training materials, contracts etc.. Could be automatically processed within an AI workflow so they would be automatically flagged for inconsistency, to extract records of review, expiry date (track keywords, dates, signatures and conflicting information)"	Automated Document Verification and Pre-processing	IDP & Data Foundation / Compliance & Anomaly Detection Engine	High	Medium	3	2	2.6	2.4	High	Supplier Management	DRiVE
-"Automated estimation of costs (regression based on historical data) + detection of non compliant values (string, 0, 1, or illogical value)"	Cost Estimation and Compliance Detection	IDP & Data Foundation / Predictive Analytics & Scenario Modeling	Low	Medium	1	2	1.2	2.2	High	Requirements definition	eSourcing
+"Analyze contract documents to extract key data (such as clauses and obligations, contract terms, renewal dates, pricing clauses, service level agreements..). Monitor supplier performance (invoices, delivery schedules, quality reports) against these obligations and contract compliance, flagging potential breaches or deviations and flagging them accordingly"	Contract Analysis and Supplier Performance Monitoring	IDP & Data Foundation / Compliance & Anomaly Detection Engine	Medium	Low	2	1	2.2	1.2	High	Contract Management	Procurement Portal
+"Automated document verification/Pre processing: Policies, training materials, contracts etc.. Could be automatically processed within an AI workflow so they would be automatically flagged for inconsistency, to extract records of review, expiry date (track keywords, dates, signatures and conflicting information)"	Automated Document Verification and Pre-processing	IDP & Data Foundation / Compliance & Anomaly Detection Engine	High	Medium	3	2	2.6	2.4	High	Supplier Management	Procurement Portal
+"Automated estimation of costs (regression based on historical data) + detection of non compliant values (string, 0, 1, or illogical value)"	Cost Estimation and Compliance Detection	IDP & Data Foundation / Predictive Analytics & Scenario Modeling	Low	Medium	1	2	1.2	2.2	High	Requirements definition	Procurement Portal
 "UNSPSC Lookup with semantic linking: finding the best UNSPSC code for an item with a research based on project context and meaning"	UNSPSC Lookup with Semantic Linking	Intelligent Document Processing (IDP) & Data Foundation	High	Low	3	1	2.95	1.05	Very High	Supplier Management	Procurement Portal
 "Scan and extract data from UN agencies LTAs (PDFs) from UNGM to build a fully-fledged and searchable contract repository. Relevant UN agencies' LTAs alongside UNOPS LTAs and other existing contracts are automatically suggested as suggested sourcing option, if relevant matched identified at requisition stage
 
-Streamline search of contracts (POs, other contracts, LTAs, UN agency LTAs, BPAs...) in the repository by leveraging Natural Language Processing"	Contract Repository and Search Optimization	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.9	1.1	High	Contract Management	Other
-"Automatically screen supplier documentation as part of DRiVE to verify questionnaire responses or suggest to suppliers pre filled responses to the questionnaire, based on submitted documents (invovle reshaping DRiVE process, to have first document submission,. then a first level of verification done by the suppliers)"	Automated Supplier Documentation Screening for DRiVE	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.7	1.1	High	Supplier Management	DRiVE
-"Specification classifier (+ vector DB perhaps) to retrieve the attributes and specs of an item (would then be used for Tender authoring)"	Specification Classifier for Tender Authoring	Intelligent Document Processing (IDP) & Data Foundation	High	Low	3	1	2.85	1.15	Very High	Requirements definition	eSourcing
-"Suggest relevant UNSPSC codes from natural language text descriptions"	UNSPSC Code Suggestion from Natural Language	Intelligent Document Processing (IDP) & Data Foundation	High	Low	3	1	2.65	1.25	Very High	Requirements definition	eSourcing
+Streamline search of contracts (POs, other contracts, LTAs, UN agency LTAs, BPAs...) in the repository by leveraging Natural Language Processing"	Contract Repository and Search Optimization	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.9	1.1	High	Contract Management	ERP
+"Automatically screen supplier documentation as part of DRiVE to verify questionnaire responses or suggest to suppliers pre filled responses to the questionnaire, based on submitted documents (invovle reshaping DRiVE process, to have first document submission, then a first level of verification done by the suppliers)"	Automated Supplier Documentation Screening for DRiVE	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.7	1.1	High	Supplier Management	Procurement Portal
+"Specification classifier (+ vector DB perhaps) to retrieve the attributes and specs of an item (would then be used for Tender authoring)"	Specification Classifier for Tender Authoring	Intelligent Document Processing (IDP) & Data Foundation	High	Low	3	1	2.85	1.15	Very High	Requirements definition	Procurement Portal
+"Suggest relevant UNSPSC codes from natural language text descriptions"	UNSPSC Code Suggestion from Natural Language	Intelligent Document Processing (IDP) & Data Foundation	High	Low	3	1	2.65	1.25	Very High	Requirements definition	Procurement Portal
 "Translation capabilities for documents"	Document Translation Capabilities	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	2.1	1.35	High	Supplier Management	Other
-"Automatically screen supplier documents to verify/authenticate diversity status (women-owned, youth-owned, disability-inclusive, MSME)"	Supplier Diversity Status Verification	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.65	1.4	High	Supplier Management	DRiVE
-"Linking with Opportunity+ to fetch partner data (feeding into SP consideration for example)."	Partner Data Integration with Opportunity+	Intelligent Document Processing (IDP) & Data Foundation	Low	Low	1	1	1.5	1.5	Medium	Strategy and Planning	
+"Automatically screen supplier documents to verify/authenticate diversity status (women-owned, youth-owned, disability-inclusive, MSME)"	Supplier Diversity Status Verification	Intelligent Document Processing (IDP) & Data Foundation	Medium	Low	2	1	1.65	1.4	High	Supplier Management	Procurement Portal
+"Linking with Opportunity+ to fetch partner data (feeding into SP consideration for example)."	Partner Data Integration with Opportunity+	Intelligent Document Processing (IDP) & Data Foundation	Low	Low	1	1	1.5	1.5	Medium	Strategy and Planning	Procurement Portal
 "Automatically generate and auto-populate receipt in oneUNOPS based on documentation/proof of delivery submitted by vendor"	Automated Receipt Generation in oneUNOPS	Intelligent Document Processing (IDP) & Data Foundation	Low	Low	1	1	1.5	1.5	Medium	Contract Management	ERP
-"Automate invoice processing and reconciliation by automatically extracting data from invoices and perform three-way matching (comparing the invoice to the PO and the receipt) for reconciliation. Recognize variations in descriptions and quantities."	Automated Invoice Processing and Reconciliation	Intelligent Document Processing (IDP) & Data Foundation	Medium	Medium	2	2	2.25	2.15	Medium	Invoice/payment	ERP
+"Automate invoice processing and reconciliation by automatically extracting data from invoices and perform three-way matching (comparing the invoice to the PO and the receipt) for reconciliation. Recognize variations in descriptions and quantities."	Automated Invoice Processing and Reconciliation	Intelligent Document Processing (IDP) & Data Foundation	Medium	Medium	2	2	2.25	2.15	Medium	Invoice/payment	Procurement Portal
 "Automate initial bid screening by extracting data from bidding documents (including scanned PDFs via OCR) to automatically verify completeness and compliance with tender requirements, flagging non-compliant bids for further review
 
-Automate the verification of bidders' mandatory requirements (incl. legal registrations, certifications and licenses) by extracting this information from submitted documentation"	Automated Bid Screening and Compliance Verification	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	3	2	2.8	2.2	High	Evaluation	eSourcing
+Automate the verification of bidders' mandatory requirements (incl. legal registrations, certifications and licenses) by extracting this information from submitted documentation"	Automated Bid Screening and Compliance Verification	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	3	2	2.8	2.2	High	Evaluation	Procurement Portal
 "Support auto-bid evaluation by extracting relevant information from bids that can be used to evaluate bids based on pre-defined criteria, suppliers can review the extracted data or explain it.
 
-Also, the folders are pre-sorted and labelled by the AI, so the user can already know where to navigate to find information"	AI-Powered Bid Evaluation and Information Sorting	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	3	2	2.65	2.35	High	Evaluation	eSourcing
-"Data ingestion module (Entrance of the data pipeline for procurement). Converts language input from requisition into data for all system (UNSPSC, Country, Partner, Priorities, Project ID, Initial recommended method, SDG). This first module generates a first data-driven ""ID card"" for any procurement project facilitating the follow-up, assessment and reporting around of any procurement project"	Data Ingestion Module: Procurement Project ID Card	Intelligent Document Processing (IDP) & Data Foundation	High	High	3	3	2.95	2.95	Medium	Strategy and Planning	eSourcing
-"Automatically generate a concise summary of the contract to help parties understand risks, key terms...etc. Enable parties to ask questions about the contract and find relevant information within the contract using natural language queries (e.g.: identify specific terms/clauses)"	Contract Summary and Query Tool	Intelligent Document Processing (IDP) & Data Foundation / Conversational AI & Support	Low	Low	1	1	1.5	1.5	Medium	Contract Management	eSourcing
+Also, the folders are pre-sorted and labelled by the AI, so the user can already know where to navigate to find information"	AI-Powered Bid Evaluation and Information Sorting	Intelligent Document Processing (IDP) & Data Foundation	High	Medium	3	2	2.65	2.35	High	Evaluation	Procurement Portal
+"Data ingestion module (Entrance of the data pipeline for procurement). Converts language input from requisition into data for all system (UNSPSC, Country, Partner, Priorities, Project ID, Initial recommended method, SDG). This first module generates a first data-driven ""ID card"" for any procurement project facilitating the follow-up, assessment and reporting around of any procurement project"	Data Ingestion Module: Procurement Project ID Card	Intelligent Document Processing (IDP) & Data Foundation	High	High	3	3	2.95	2.95	Medium	Strategy and Planning	Procurement Portal
+"Automatically generate a concise summary of the contract to help parties understand risks, key terms...etc. Enable parties to ask questions about the contract and find relevant information within the contract using natural language queries (e.g.: identify specific terms/clauses)"	Contract Summary and Query Tool	Intelligent Document Processing (IDP) & Data Foundation / Conversational AI & Support	Low	Low	1	1	1.5	1.Example	Medium	Contract Management	Procurement Portal
 "Automatically generate lessons learned evaluating the procurement process's effectiveness, outcome achievement and quality of requirements
 
-Learn from past successful tenders (large number of responses, number of successful bidders...) to improve future procurement processes (based on tender details, documentation...etc)"	Procurement Process Evaluation and Improvement	Predictive Analytics & Scenario Modeling	Low	Low	1	1	1.5	1.5	Medium	Knowlegde Management	Other
-"Impact Analysis: Before activating a new scoring model, the AI simulates its impact on historical data to report on how it would have affected past supplier scores."	AI Scoring Model Impact Analysis	Predictive Analytics & Scenario Modeling	Low	Low	1	1	1.5	1.5	Medium	Supplier Management	DRiVE
-"Planning forecasting (ML/DL from similar cases) to help design better procurement planning"	Procurement Planning with ML/DL Forecasting	Predictive Analytics & Scenario Modeling	Medium	Medium	2	2	2.45	1.95	Medium	Strategy and Planning	
+Learn from past successful tenders (large number of responses, number of successful bidders...) to improve future procurement processes (based on tender details, documentation...etc)"	Procurement Process Evaluation and Improvement	Predictive Analytics & Scenario Modeling	Low	Low	1	1	1.5	1.5	Medium	Knowlegde Management	ERP
+"Impact Analysis: Before activating a new scoring model, the AI simulates its impact on historical data to report on how it would have affected past supplier scores."	AI Scoring Model Impact Analysis	Predictive Analytics & Scenario Modeling	Low	Low	1	1	1.5	1.5	Medium	Supplier Management	Procurement Portal
+"Planning forecasting (ML/DL from similar cases) to help design better procurement planning"	Procurement Planning with ML/DL Forecasting	Predictive Analytics & Scenario Modeling	Medium	Medium	2	2	2.45	1.95	Medium	Strategy and Planning	Procurement Portal
 "Automated DRiVE Score calibration (weighting) based on project context"	Automated DRiVE Score Calibration	Predictive Analytics & Scenario Modeling	Low	Medium	1	2	1.3	2.3	High	Supplier Management	DRiVE
-"Automatically identify areas for improvement in procurement processes based on lessons learned from CPC reviews"	Procurement Process Improvement	Predictive Analytics & Scenario Modeling	Medium	Medium	2	2	1.95	2.4	Medium	Award	Other
-"Analyze submitted bids against tender document to identify potential areas of negotiation (e.g.: pricing, payment terms, service level agreements) and recommend negotiation strategies"	Negotiation Strategy Development	Predictive Analytics & Scenario Modeling	Low	Medium	1	2	1.4	2.45	High	Evaluation	eSourcing
+"Automatically identify areas for improvement in procurement processes based on lessons learned from CPC reviews"	Procurement Process Improvement	Predictive Analytics & Scenario Modeling	Medium	Medium	2	2	1.95	2.4	Medium	Award	ERP
+"Analyze submitted bids against tender document to identify potential areas of negotiation (e.g.: pricing, payment terms, service level agreements) and recommend negotiation strategies"	Negotiation Strategy Development	Predictive Analytics & Scenario Modeling	Low	Medium	1	2	1.4	2.45	High	Evaluation	Procurement Portal
 "Conduct complex evaluation/award scenarios:
 - Conduct award scenario analysis to compare bids and optimize outcomes (e.g., best price per line item, best overall price).
-- Analyze ""what-if"" scenarios, such as awarding multiple lots to a single supplier for volume discounts, to calculate potential savings and Total Cost of Ownership (TCO) and recommend negotiation strategies"	Complex Evaluation and Award Scenarios Analysis	Predictive Analytics & Scenario Modeling	High	High	3	3	2.65	2.65	Medium	Evaluation	eSourcing
-"Scenario testing (TCO, Supply Chain disruption) to support practionners in drafting resilient procurement strategies. This feature could simulate a fulll worklow based on parameters that the user can change"	Scenario Testing for Resilient Procurement Strategies	Predictive Analytics & Scenario Modeling	High	High	3	3	2.85	2.85	Medium	Strategy and Planning	
+- Analyze ""what-if"" scenarios, such as awarding multiple lots to a single supplier for volume discounts, to calculate potential savings and Total Cost of Ownership (TCO) and recommend negotiation strategies"	Complex Evaluation and Award Scenarios Analysis	Predictive Analytics & Scenario Modeling	High	High	3	3	2.65	2.65	Medium	Evaluation	Procurement Portal
+"Scenario testing (TCO, Supply Chain disruption) to support practionners in drafting resilient procurement strategies. This feature could simulate a fulll worklow based on parameters that the user can change"	Scenario Testing for Resilient Procurement Strategies	Predictive Analytics & Scenario Modeling	High	High	3	3	2.85	2.85	Medium	Strategy and Planning	ERP
 "DRiVE pattern and trends: identify patterns and trends through regression and clusterisation to better prevent and mitigate issues/risks among suppliers"	DRiVE Patterns and Trends Analysis	Predictive Analytics & Scenario Modeling	Medium	High	2	3	2.35	2.85	Low	Supplier Management	DRiVE
-"Use an ML approach to support the decision-making for RFP (MCDM TOPSIS or MARCOS)"	ML for RFP Decision-Making (MCDM, TOPSIS, MARCOS)	Predictive Analytics & Scenario Modeling	High	High	2	3	1.75	2.95	Low	Evaluation	eSourcing
-"Automate and streamline the entire purchase requisition intake process by intelligently understanding Purchase Requisitions, suggests existing contracts/LTAs and/or potential suppliers."	Purchase Requisition Automation	Supplier Intelligence & Matching	Medium	Low	2	1	2.25	1.05	High	Requirements definition	Procurement Portal
-"Questionnaire Assignment: Beyond simple rules, an AI could analyze a supplier's complete profile to intelligently suggest the most relevant supplemental questionnaire modules."	AI-Powered Questionnaire Assignment	Supplier Intelligence & Matching	Medium	Low	2	1	2.35	1.15	High	Supplier Management	DRiVE
+"Use an ML approach to support the decision-making for RFP (MCDM TOPSIS or MARCOS)"	ML for RFP Decision-Making (MCDM, TOPSIS, MARCOS)	Predictive Analytics & Scenario Modeling	High	High	2	3	1.75	2.95	Low	Evaluation	Procurement Portal
+"Automate and streamline the entire purchase requisition intake process by intelligently understanding Purchase Requisitions, suggests existing contracts/LTAs and/or potential suppliers."	Purchase Requisition Automation	Supplier Intelligence & Matching	Medium	Low	2	1	2.25	1.05	High	Requirements definition	ProcUREMENT Portal
+"Questionnaire Assignment: Beyond simple rules, an AI could analyze a supplier's complete profile to intelligently suggest the most relevant supplemental questionnaire modules."	AI-Powered Questionnaire Assignment	Supplier Intelligence & Matching	Medium	Low	2	1	2.35	1.15	High	Supplier Management	Procurement Portal
 "Sustainable Procurement Agent: https://www.kaggle.com/code/marcocondemipolimeni/sustainable-procurement-agent
 Pull together SPPM data, with SP criteria, country data and Web search to provide granual and adaptive sustainable procurement recommendations
-"	Sustainable Procurement Agent	Supplier Intelligence &Matching	High	Low	3	1	2.75	1.3	Very High	Supplier Management	DRiVE
-"Automatically extract key market intelligence from unstructured sourcing response documents"	Market Intelligence Extraction from Sourcing Documents	Supplier Intelligence & Matching	Low	Low	1	1	1.5	1.5	Medium	Sourcing	eSourcing
+"	Sustainable Procurement Agent	Supplier Intelligence &Matching	High	Low	3	1	2.75	1.3	Very High	Supplier Management	Procurement Portal
+"Automatically extract key market intelligence from unstructured sourcing response documents"	Market Intelligence Extraction from Sourcing Documents	Supplier Intelligence & Matching	Low	Low	1	1	1.5	1.5	Medium	Sourcing	Other
 "Automate supplier performance evaluation and monitoring by tracking and analyzing supplier performance metrics (delivery times, quantity, quality, communication, compliance, cost, questionnaire) over time
 
-Automatically identify recommendations for improvement (incl. capacity development action plans)"	Automated Supplier Performance Evaluation	Supplier Intelligence &Matching	Medium	Medium	2	2	1.6	2.05	Medium	Supplier Management	DRiVE
-"Gather benchmark pricing and cost data from public databases, historical procurement records and real-time market intelligence (including disruption reports) to support reasonableness of cost analysis"	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Matching	Medium	Medium	2	2	2.05	2.45	Medium	Evaluation	Other
+Automatically identify recommendations for improvement (incl. capacity development action plans)"	Automated Supplier Performance Evaluation	Supplier Intelligence &Matching	Medium	Medium	2	2	1.6	2.05	Medium	Supplier Management	Procurement Portal
+"Gather benchmark pricing and cost data from public databases, historical procurement records and real-time market intelligence (including disruption reports) to support reasonableness of cost analysis"	Benchmark Pricing and Cost Analysis	Supplier Intelligence & Matching	Medium	Medium	2	2	2.05	2.45	Medium	Evaluation	Procurement Portal
 "Automatically suggest potential suppliers to invite to tender that have history of supplying the requirement or able to supply the requirement based on match between supplier data/information and tender requirements (e.g.: UNSPSC codes and other criteria)
 
 For Emergency Procurement, automatically suggest potential suppliers based on historical procurement history, EPP experience etc.."	Supplier Suggestion for Tendering and Emergency Procurement	Supplier Intelligence & Matching	High	High	3	3	2.6	2.6	Medium	Solicitation	Procurement Portal
@@ -366,6 +361,7 @@ Analyze large databases of suppliers (internal and external) + web to identify p
         // --- Global state ---
         let allFeatures = [];
         let activeFilter = 'Global view';
+        let allSystems = ['Global view']; // Start with Global view
 
         // --- Helper function to parse the TSV data ---
         function parseData(tsv) {
@@ -384,6 +380,8 @@ Analyze large databases of suppliers (internal and external) + web to identify p
             const processPartIndex = headers.indexOf('Part of the process');
             const systemIndex = headers.indexOf('System'); // Added new column
 
+            const systems = new Set(); // To dynamically find all systems
+
             for (let i = 1; i < lines.length; i++) {
                 const values = lines[i].split('\t');
                 // Use >= to be robust against empty trailing columns
@@ -396,6 +394,17 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                     // Handle escaped double quotes inside the string
                     description = description.replace(/""/g, '"').replace(/  /g, ' '); // Fix double quotes and extra spaces
 
+                    let system = (values[systemIndex] ? values[systemIndex].trim() : 'Other') || 'Other';
+                    
+                    // Fix data entry error "procUREMENT Portal"
+                    if (system.toUpperCase() === "PROCUREMENT PORTAL") {
+                        system = "Procurement Portal";
+                    }
+
+                    if (system) {
+                        systems.add(system);
+                    }
+
                     features.push({
                         Description: description,
                         Title: values[titleIndex] ? values[titleIndex].trim() : 'Untitled',
@@ -404,11 +413,12 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                         Complexity: values[complexityIndex] ? values[complexityIndex].trim() : 'Medium',
                         Prioritization: values[prioIndex] ? values[prioIndex].trim() : 'Medium',
                         ProcessPart: values[processPartIndex] ? values[processPartIndex].trim() : '', 
-                        // Default to 'Other' if blank, otherwise use the value
-                        System: (values[systemIndex] ? values[systemIndex].trim() : 'Other') || 'Other'
+                        System: system
                     });
                 }
             }
+            // Sort systems alphabetically and add to global list
+            allSystems = ['Global view', ...Array.from(systems).sort()];
             return features;
         }
 
@@ -528,7 +538,7 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                         grouped[mappedMacroName][feature.Prioritization].push(feature);
                     }
                 } else if (feature.Macro) { // Only warn if macro isn't blank
-                    console.warn(`Unmapped macro: ${feature.Macro}`);
+                    // console.warn(`Unmapped macro: ${feature.Macro}`);
                 }
             }
             return grouped;
@@ -598,6 +608,7 @@ Analyze large databases of suppliers (internal and external) + web to identify p
         function buildMacroList(groupedData) {
             const container = document.getElementById('macro-list-container');
             container.innerHTML = ''; // Clear previous content
+            let featuresFound = false;
 
             for (const macroName of macroRenderOrder) {
                 const priorities = groupedData[macroName];
@@ -606,6 +617,8 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                 // Check if there are any features in this macro group
                 const totalFeatures = Object.values(priorities).reduce((sum, list) => sum + list.length, 0);
                 if (totalFeatures === 0) continue; // Skip empty macros
+                
+                featuresFound = true; // We found at least one feature to show
 
                 const macroBox = document.createElement('div');
                 macroBox.className = 'bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col';
@@ -640,7 +653,7 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                             li.className = 'feature-item text-sm text-slate-800 leading-snug';
                             
                             // 1. Create the new "Process Part" tag (if it exists)
-                            if (feature.ProcessPart && feature.ProcessPart !== 'MULTI' && feature.ProcessPart !== 'Help/support') {
+                            if (feature.ProcessPart) {
                                 const tag = document.createElement('span');
                                 tag.className = 'process-tag';
                                 tag.textContent = feature.ProcessPart;
@@ -666,6 +679,13 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                     }
                 }
                 container.appendChild(macroBox);
+            }
+            
+            // Show a message if no features are found for the active filter
+            if (!featuresFound) {
+                container.innerHTML = `<div class="col-span-1 md:col-span-2 lg:col-span-3 text-center text-slate-500 bg-white p-8 rounded-lg border border-slate-200 shadow-sm">
+                    No features match the selected system filter.
+                </div>`;
             }
         }
 
@@ -726,22 +746,13 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                                     <ul class="list-disc list-inside space-y-1">`;
                     
                     for (const feature of macroFeatures) {
-                        // We only show the title as requested
-                        // Add the ProcessPart tag if it exists
-                        let tagHtml = '';
-                        if (feature.ProcessPart && feature.ProcessPart !== 'MULTI' && feature.ProcessPart !== 'Help/support') {
-                            tagHtml = `<span class="process-tag !mr-1.5 !py-0 !px-1.5">${feature.ProcessPart}</span>`; // Use smaller tag in modal
-                        }
-                        listHtml += `<li class="text-sm text-slate-700 flex items-center mt-1">${tagHtml}<span class="flex-1">${feature.Title}</span></li>`;
+                        // Added tag to modal list as well
+                        const tagHtml = feature.ProcessPart ? `<span class="process-tag !text-[0.7rem] !py-0 !px-1.5 !mr-1.5">${feature.ProcessPart}</span>` : '';
+                        listHtml += `<li class="text-sm text-slate-700">${tagHtml}${feature.Title}</li>`;
                     }
                     
                     listHtml += `</ul>`;
-                    macroBox.innerHTML = listHtml.replace(/<h4 class="text-base font-semibold text-slate-800 mb-2"> <\/h4>/, `<h4 class="text-base font-semibold text-slate-800 mb-2">${macroName}</h4>`); // Clean up empty icon space
-                    // Refined cleanup
-                    const titleEl = macroBox.querySelector('h4');
-                    titleEl.innerHTML = titleEl.innerHTML.trim();
-
-
+                    macroBox.innerHTML = listHtml;
                     modalList.appendChild(macroBox);
                 }
             }
@@ -759,63 +770,71 @@ Analyze large databases of suppliers (internal and external) + web to identify p
             modalList.innerHTML = '';
             modalTitle.textContent = '';
         }
-
+        
         /**
-         * Renders the entire dashboard based on a filter
-         * @param {string} filterSystem - The system to filter by (e.g., "DRiVE", "Global view")
+         * Main function to update the entire UI based on the active filter
          */
-        function renderDashboard(filterSystem = 'Global view') {
-            activeFilter = filterSystem;
-
-            // 1. Filter features
-            const filteredFeatures = allFeatures.filter(feature => {
-                if (filterSystem === 'Global view') {
-                    return true;
-                }
-                return feature.System === filterSystem;
-            });
-
-            // 2. Build and Render 3x3 Matrix
+        function updateDashboard() {
+            // 1. Filter the features
+            const filteredFeatures = (activeFilter === 'Global view')
+                ? allFeatures
+                : allFeatures.filter(f => f.System === activeFilter);
+            
+            // 2. Re-group and re-build the 3x3 matrix
             const matrixData = groupForImpactMatrix(filteredFeatures);
             buildImpactMatrix(matrixData);
 
-            // 3. Build and Render Macro List
+            // 3. Re-group and re-build the macro list
             const macroListData = groupForMacroList(filteredFeatures);
             buildMacroList(macroListData);
-
+            
             // 4. Update active button state
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                if (btn.dataset.filter === filterSystem) {
+                if (btn.dataset.filter === activeFilter) {
                     btn.classList.add('active');
                 } else {
                     btn.classList.remove('active');
                 }
             });
         }
-
+        
         /**
-         * Initializes filter button event listeners
+         * Creates the filter buttons dynamically
          */
-        function initFilters() {
-            document.querySelectorAll('.filter-btn').forEach(btn => {
+        function buildFilterButtons() {
+            const wrapper = document.getElementById('filter-buttons-wrapper');
+            wrapper.innerHTML = ''; // Clear
+            
+            allSystems.forEach(systemName => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.dataset.filter = systemName;
+                btn.textContent = systemName;
+                
+                if (systemName === activeFilter) {
+                    btn.classList.add('active');
+                }
+                
                 btn.addEventListener('click', () => {
-                    const filter = btn.dataset.filter;
-                    renderDashboard(filter);
+                    activeFilter = systemName;
+                    updateDashboard();
                 });
+                
+                wrapper.appendChild(btn);
             });
         }
 
 
         // --- Main ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Parse all data
+            // 1. Parse data (this also sets the `allSystems` global var)
             allFeatures = parseData(rawData);
             
-            // 2. Setup filters
-            initFilters();
-            
-            // 3. Initial render
-            renderDashboard('Global view');
+            // 2. Build the filter buttons dynamically
+            buildFilterButtons();
+
+            // 3. Initial render of the dashboard
+            updateDashboard();
 
             // 4. Setup Modal Close Events
             closeModalBtn.addEventListener('click', hideModal);
@@ -825,13 +844,7 @@ Analyze large databases of suppliers (internal and external) + web to identify p
                     hideModal();
                 }
             });
-
-             // A small fix to clean up the modal title HTML just in case
-            document.querySelectorAll('h4').forEach(h4 => {
-                h4.innerHTML = h4.innerHTML.trim();
-            });
         });
     </script>
 </body>
 </html>
-
